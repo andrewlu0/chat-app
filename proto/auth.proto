@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package auth;
+
+// Authentication interface
+service Auth {
+  // Signs up user and returns error if username already exists.
+  rpc Signup(User) returns (Response) {}
+  // Logs in user and returns error if username doesn't exist or password is incorrect.
+  rpc Login(User) returns (Response) {}
+
+  // Sends chat to server
+  rpc SendChat(Chat) returns (Response) {}
+
+  // Returns all chats in DB
+  rpc GetChats(google.protobuf.Empty) returns (stream Chat){}
+}
+
+// User with username and password information
+message User {
+ string username = 1;
+ string password = 2;
+}
+
+// Response from log in or sign up
+message Response {
+  bool error = 1;
+  string message = 2;
+}
+
+// Chat message in chatroom
+message Chat {
+  string message = 1;
+  string username = 2;
+}
