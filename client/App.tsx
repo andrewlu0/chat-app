@@ -22,7 +22,7 @@ export default function App() {
         screenOptions={{
           headerShown: false,
         }}
-        initialRouteName="Chatroom"
+        initialRouteName="Home"
       >
         <Stack.Screen
           name="Home"
