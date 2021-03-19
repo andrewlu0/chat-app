@@ -22,6 +22,10 @@ In client directory install requirements with:
 ```
 yarn install
 ```
+For gRPC to work with Electron, you might need to rebuild (this step may take a while):
+```
+./node_modules/.bin/electron-rebuild
+```
 
 Then run:
 ```
