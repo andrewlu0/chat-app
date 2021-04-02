@@ -9,7 +9,9 @@ var client = new auth.Auth(
 );
 
 class Authenticator {
-  constructor() {}
+  constructor() {
+    this.call = client.Message();
+  }
   Signup(username, password) {
     return new Promise((resolve, reject) => {
       var user = {
@@ -40,18 +42,6 @@ class Authenticator {
       });
     });
   }
-  SendChat(message, user) {
-    var chat = {
-      message: message,
-      username: user,
-    };
-    client.SendChat(chat, (err, resp) => {
-      if (err) {
-      } else {
-        console.log(resp);
-      }
-    });
-  }
   GetChats() {
     return new Promise((resolve, reject) => {
       var call = client.GetChats();
@@ -63,10 +53,15 @@ class Authenticator {
         reject(Error(err));
       });
       call.on("end", () => {
-        console.log(chats);
         resolve(chats);
       });
     });
+  }
+  SendChat(msg) {
+    this.call.write(msg);
+  }
+  MessageStream(){
+    return this.call;
   }
 }
 

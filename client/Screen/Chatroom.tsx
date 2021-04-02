@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,8 +8,9 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 
-import Authenticator from "../Authenticator";
+import { AuthContext } from "../App";
 
 interface Props {
   route: any;
@@ -38,19 +39,21 @@ const Chatroom = ({ route, navigation }: Props) => {
   var user = "";
   const [chat, setChat] = useState("");
   const [messages, setMessages] = useState([{ message: "", username: "" }]);
-  var a = new Authenticator();
+  var a = useContext(AuthContext);
+  a.MessageStream().on("data", (chat) => {
+    setMessages([...messages, chat]);
+  });
   if (route.params) {
     const { username } = route.params;
     user = username;
   }
   const handleSubmit = () => {
-    console.log(chat);
-    a.SendChat(chat, user);
     var msg = {
       message: chat,
       username: user,
-    }
-    setMessages([...messages, msg])
+    };
+    a.SendChat(msg);
+    // setMessages([...messages, msg])
     setChat("");
   };
   useEffect(() => {
@@ -59,29 +62,27 @@ const Chatroom = ({ route, navigation }: Props) => {
   const getChats = async () => {
     var chats = await a.GetChats();
     setMessages(chats);
-    console.log(messages);
   };
   return (
     <>
-      <View style = {styles.header}>
+      <View style={styles.header}>
         <Text style={styles.title}>Chatroom</Text>
         <TouchableOpacity
           style={styles.back}
           onPress={() => navigation.navigate("Home")}
         >
-          <Text style = {styles.back}>Back</Text>
+          <Text style={styles.back}>Back</Text>
         </TouchableOpacity>
       </View>
-      {messages.map((msg) => (
-        <Chatbox
-          message={msg.message}
-          username={msg.username}
-          currentUser={user}
-        />
-      ))}
-      <View style={styles.container}>
-        
-      </View>
+      <ScrollView>
+        {messages.map((msg) => (
+          <Chatbox
+            message={msg.message}
+            username={msg.username}
+            currentUser={user}
+          />
+        ))}
+      </ScrollView>
       <View style={styles.buttons}>
         <TextInput
           style={styles.inputStyle}
@@ -111,10 +112,7 @@ const styles = StyleSheet.create({
     borderBottomColor: "white",
   },
   container: {
-    flex: 1,
-    backgroundColor: "#13151a",
-    alignItems: "center",
-    justifyContent: "center",
+    overflow: "hidden",
   },
   title: {
     color: "white",
@@ -169,5 +167,5 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: "#DDDDDD",
     borderRadius: 7,
-  }
+  },
 });

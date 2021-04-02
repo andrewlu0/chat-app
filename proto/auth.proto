@@ -11,8 +11,11 @@ service Auth {
   // Logs in user and returns error if username doesn't exist or password is incorrect.
   rpc Login(User) returns (Response) {}
 
+  // Bidirectional stream of chat messages
+  rpc Message(stream Chat) returns (stream Chat) {}
+
   // Sends chat to server
-  rpc SendChat(Chat) returns (Response) {}
+  //rpc SendChat(Chat) returns (Response) {}
 
   // Returns all chats in DB
   rpc GetChats(google.protobuf.Empty) returns (stream Chat){}

@@ -76,3 +76,4 @@ web-build/
 /server/bin
 /server/lib
 /server/pyvenv.cfg
+/server/__pycache__

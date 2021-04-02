@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,7 +9,7 @@ import {
   TextInput,
 } from "react-native";
 
-import Authenticator from "../Authenticator";
+import { AuthContext } from "../App"
 
 interface Props {
   navigation: any;
@@ -21,11 +21,9 @@ const Signup = ({ navigation, ...props }: Props) => {
   const [resp, setResp] = useState({ error: false, message: "" });
   const userInputRef = useRef(null);
   const passInputRef = useRef(null);
-  var a = new Authenticator();
+  var a = useContext(AuthContext);
   const handleSignup = async () => {
-    console.log(username);
     var res = await a.Signup(username, password);
-    console.log(res);
     setResp(res);
     if (!res.error){
       setUsername("");

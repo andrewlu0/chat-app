@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\nauth.proto\x12\x04\x61uth\x1a\x1bgoogle/protobuf/empty.proto\"*\n\x04User\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"*\n\x08Response\x12\r\n\x05\x65rror\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\")\n\x04\x43hat\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x10\n\x08username\x18\x02 \x01(\t2\xb3\x01\n\x04\x41uth\x12&\n\x06Signup\x12\n.auth.User\x1a\x0e.auth.Response\"\x00\x12%\n\x05Login\x12\n.auth.User\x1a\x0e.auth.Response\"\x00\x12(\n\x08SendChat\x12\n.auth.Chat\x1a\x0e.auth.Response\"\x00\x12\x32\n\x08GetChats\x12\x16.google.protobuf.Empty\x1a\n.auth.Chat\"\x00\x30\x01\x62\x06proto3'
+  serialized_pb=b'\n\nauth.proto\x12\x04\x61uth\x1a\x1bgoogle/protobuf/empty.proto\"*\n\x04User\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08password\x18\x02 \x01(\t\"*\n\x08Response\x12\r\n\x05\x65rror\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\")\n\x04\x43hat\x12\x0f\n\x07message\x18\x01 \x01(\t\x12\x10\n\x08username\x18\x02 \x01(\t2\xb2\x01\n\x04\x41uth\x12&\n\x06Signup\x12\n.auth.User\x1a\x0e.auth.Response\"\x00\x12%\n\x05Login\x12\n.auth.User\x1a\x0e.auth.Response\"\x00\x12\'\n\x07Message\x12\n.auth.Chat\x1a\n.auth.Chat\"\x00(\x01\x30\x01\x12\x32\n\x08GetChats\x12\x16.google.protobuf.Empty\x1a\n.auth.Chat\"\x00\x30\x01\x62\x06proto3'
   ,
   dependencies=[google_dot_protobuf_dot_empty__pb2.DESCRIPTOR,])
 
@@ -179,7 +179,7 @@ _AUTH = _descriptor.ServiceDescriptor(
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
   serialized_start=181,
-  serialized_end=360,
+  serialized_end=359,
   methods=[
   _descriptor.MethodDescriptor(
     name='Signup',
@@ -202,12 +202,12 @@ _AUTH = _descriptor.ServiceDescriptor(
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
-    name='SendChat',
-    full_name='auth.Auth.SendChat',
+    name='Message',
+    full_name='auth.Auth.Message',
     index=2,
     containing_service=None,
     input_type=_CHAT,
-    output_type=_RESPONSE,
+    output_type=_CHAT,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),

@@ -26,10 +26,10 @@ class AuthStub(object):
                 request_serializer=auth__pb2.User.SerializeToString,
                 response_deserializer=auth__pb2.Response.FromString,
                 )
-        self.SendChat = channel.unary_unary(
-                '/auth.Auth/SendChat',
+        self.Message = channel.stream_stream(
+                '/auth.Auth/Message',
                 request_serializer=auth__pb2.Chat.SerializeToString,
-                response_deserializer=auth__pb2.Response.FromString,
+                response_deserializer=auth__pb2.Chat.FromString,
                 )
         self.GetChats = channel.unary_stream(
                 '/auth.Auth/GetChats',
@@ -56,15 +56,18 @@ class AuthServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def SendChat(self, request, context):
-        """Sends chat to server
+    def Message(self, request_iterator, context):
+        """Bidirectional stream of chat messages
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
     def GetChats(self, request, context):
-        """Returns all chats in DB
+        """Sends chat to server
+        rpc SendChat(Chat) returns (Response) {}
+
+        Returns all chats in DB
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -83,10 +86,10 @@ def add_AuthServicer_to_server(servicer, server):
                     request_deserializer=auth__pb2.User.FromString,
                     response_serializer=auth__pb2.Response.SerializeToString,
             ),
-            'SendChat': grpc.unary_unary_rpc_method_handler(
-                    servicer.SendChat,
+            'Message': grpc.stream_stream_rpc_method_handler(
+                    servicer.Message,
                     request_deserializer=auth__pb2.Chat.FromString,
-                    response_serializer=auth__pb2.Response.SerializeToString,
+                    response_serializer=auth__pb2.Chat.SerializeToString,
             ),
             'GetChats': grpc.unary_stream_rpc_method_handler(
                     servicer.GetChats,
@@ -139,7 +142,7 @@ class Auth(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def SendChat(request,
+    def Message(request_iterator,
             target,
             options=(),
             channel_credentials=None,
@@ -149,9 +152,9 @@ class Auth(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/auth.Auth/SendChat',
+        return grpc.experimental.stream_stream(request_iterator, target, '/auth.Auth/Message',
             auth__pb2.Chat.SerializeToString,
-            auth__pb2.Response.FromString,
+            auth__pb2.Chat.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

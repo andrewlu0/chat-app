@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,22 +8,21 @@ import {
   TouchableOpacity,
   TextInput,
 } from "react-native";
-
-import Authenticator from "../Authenticator";
+import { AuthContext } from "../App"
 
 interface Props {
   navigation: any;
+  auth: any;
 }
 
-const Login = ({ navigation, ...props }: Props) => {
+const Login = ({ navigation, auth, ...props }: Props) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [resp, setResp] = useState({ message: "" });
-  var a = new Authenticator();
+  var a = useContext(AuthContext);
   const handleLogin = async () => {
     var res = await a.Login(username, password);
     setResp(res);
-    console.log(res);
     if (!res.error) {
       navigation.navigate("Chatroom", {
         username: username,
